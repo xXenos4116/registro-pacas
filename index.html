@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Registro de Pacas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --verde-oscuro:  #1a4d2e;
+      --verde-medio:   #2d7a4f;
+      --verde-claro:   #4caf7d;
+      --verde-suave:   #e8f5ee;
+      --verde-borde:   #b2dfca;
+      --blanco:        #ffffff;
+      --gris-texto:    #374151;
+      --gris-suave:    #f9fafb;
+      --radio:         14px;
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--verde-suave);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--gris-texto);
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--verde-oscuro);
+      padding: 20px 24px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 12px rgba(26,77,46,.25);
+    }
+    .header-inner {
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-icon {
+      width: 38px; height: 38px;
+      background: var(--verde-claro);
+      border-radius: 10px;
+      display: grid; place-items: center;
+      flex-shrink: 0;
+    }
+    .logo-icon svg { width: 22px; height: 22px; fill: var(--blanco); }
+    header h1 { font-size: 1.05rem; font-weight: 600; color: var(--blanco); letter-spacing: .01em; }
+    header p  { font-size: .75rem; color: rgba(255,255,255,.6); margin-top: 1px; }
+
+    /* ── TIMESTAMP BADGE ── */
+    .timestamp-bar {
+      background: var(--verde-medio);
+      padding: 8px 24px;
+    }
+    .timestamp-inner {
+      max-width: 480px; margin: 0 auto;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .timestamp-inner span {
+      font-family: 'DM Mono', monospace;
+      font-size: .8rem; color: rgba(255,255,255,.85);
+    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--verde-claro); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 480px; margin: 0 auto;
+      padding: 20px 16px 48px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--blanco);
+      border-radius: var(--radio);
+      border: 1.5px solid var(--verde-borde);
+      padding: 18px 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.04);
+    }
+    .card-title {
+      font-size: .7rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .08em;
+      color: var(--verde-medio);
+      margin-bottom: 14px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .card-title::before {
+      content: ''; display: block;
+      width: 3px; height: 14px;
+      background: var(--verde-claro);
+      border-radius: 2px;
+    }
+
+    /* ── FIELD ── */
+    .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+    .field:last-child { margin-bottom: 0; }
+    label { font-size: .82rem; font-weight: 500; color: var(--gris-texto); }
+    label .req { color: var(--verde-medio); margin-left: 2px; }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 11px 13px;
+      border: 1.5px solid var(--verde-borde);
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .9rem;
+      color: var(--gris-texto);
+      background: var(--gris-suave);
+      transition: border-color .15s, box-shadow .15s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--verde-claro);
+      box-shadow: 0 0 0 3px rgba(76,175,125,.15);
+      background: var(--blanco);
+    }
+    input[readonly] {
+      background: var(--verde-suave);
+      color: var(--verde-oscuro);
+      font-family: 'DM Mono', monospace;
+      font-size: .85rem;
+      cursor: default;
+    }
+    textarea { resize: none; min-height: 80px; line-height: 1.5; }
+
+    /* SELECT custom arrow */
+    .select-wrap { position: relative; }
+    .select-wrap::after {
+      content: '▾';
+      position: absolute; right: 13px; top: 50%; transform: translateY(-50%);
+      color: var(--verde-medio); pointer-events: none; font-size: .85rem;
+    }
+    .select-wrap select { padding-right: 32px; cursor: pointer; }
+
+    /* ── TURNO PILLS ── */
+    .turno-group { display: flex; gap: 8px; flex-wrap: wrap; }
+    .turno-pill input[type="radio"] { display: none; }
+    .turno-pill label {
+      display: flex; align-items: center; gap: 5px;
+      padding: 9px 16px;
+      border: 1.5px solid var(--verde-borde);
+      border-radius: 50px;
+      font-size: .85rem; font-weight: 500;
+      cursor: pointer;
+      transition: all .15s;
+      background: var(--gris-suave);
+      user-select: none;
+    }
+    .turno-pill input:checked + label {
+      background: var(--verde-oscuro);
+      border-color: var(--verde-oscuro);
+      color: var(--blanco);
+    }
+    .turno-pill label .icon { font-size: 1rem; }
+
+    /* ── PESO ROW ── */
+    .peso-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    /* ── HUMEDAD CHECKS ── */
+    .humedad-group { display: flex; gap: 10px; }
+    .check-pill input[type="checkbox"] { display: none; }
+    .check-pill label {
+      display: flex; align-items: center; gap: 6px;
+      padding: 10px 18px;
+      border: 1.5px solid var(--verde-borde);
+      border-radius: 50px;
+      font-size: .88rem; font-weight: 500;
+      cursor: pointer;
+      transition: all .15s;
+      background: var(--gris-suave);
+      user-select: none;
+      flex: 1; justify-content: center;
+    }
+    .check-pill input:checked + label {
+      background: var(--verde-suave);
+      border-color: var(--verde-medio);
+      color: var(--verde-oscuro);
+    }
+    .check-pill .check-icon { font-size: 1.1rem; }
+
+    /* ── SUBMIT ── */
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      background: var(--verde-oscuro);
+      color: var(--blanco);
+      border: none;
+      border-radius: var(--radio);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; font-weight: 600;
+      letter-spacing: .02em;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+      margin-top: 4px;
+    }
+    .btn-submit:active { transform: scale(.98); }
+    .btn-submit:hover { background: var(--verde-medio); }
+    .btn-submit:disabled { background: #9ca3af; cursor: not-allowed; transform: none; }
+
+    /* ── SUCCESS SCREEN ── */
+    #success-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+      text-align: center;
+      padding: 32px 24px;
+      gap: 16px;
+    }
+    .success-circle {
+      width: 90px; height: 90px;
+      background: var(--verde-suave);
+      border: 3px solid var(--verde-claro);
+      border-radius: 50%;
+      display: grid; place-items: center;
+      font-size: 2.5rem;
+    }
+    #success-screen h2 { font-size: 1.4rem; color: var(--verde-oscuro); font-weight: 600; }
+    #success-screen p  { font-size: .9rem; color: #6b7280; max-width: 280px; line-height: 1.5; }
+    .btn-nuevo {
+      margin-top: 8px;
+      padding: 13px 32px;
+      background: var(--verde-medio);
+      color: var(--blanco);
+      border: none; border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .95rem; font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* ── LOADING SPINNER ── */
+    .spinner {
+      display: inline-block;
+      width: 18px; height: 18px;
+      border: 2.5px solid rgba(255,255,255,.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      vertical-align: middle; margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── ERROR MSG ── */
+    .error-msg {
+      display: none;
+      background: #fef2f2;
+      border: 1.5px solid #fca5a5;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: .85rem;
+      color: var(--error);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M20 7H4a1 1 0 00-1 1v11a1 1 0 001 1h16a1 1 0 001-1V8a1 1 0 00-1-1zm-9 9H7v-2h4v2zm6 0h-4v-2h4v2zm0-4H7v-2h10v2zM16 3H8a1 1 0 00-1 1v2h10V4a1 1 0 00-1-1z"/></svg>
+    </div>
+    <div>
+      <h1>Registro de Pacas</h1>
+      <p>Llena los datos del turno</p>
+    </div>
+  </div>
+</header>
+
+<div class="timestamp-bar">
+  <div class="timestamp-inner">
+    <div class="dot"></div>
+    <span id="live-clock">--</span>
+  </div>
+</div>
+
+<!-- FORMULARIO -->
+<main id="form-section">
+
+  <!-- ── INFO AUTOMÁTICA ── -->
+  <div class="card">
+    <div class="card-title">Registro automático</div>
+    <div class="field">
+      <label>Fecha</label>
+      <input type="text" id="fecha" readonly />
+    </div>
+    <div class="field">
+      <label>Hora de registro</label>
+      <input type="text" id="hora" readonly />
+    </div>
+  </div>
+
+  <!-- ── TURNO ── -->
+  <div class="card">
+    <div class="card-title">Turno</div>
+    <div class="turno-group">
+      <div class="turno-pill">
+        <input type="radio" name="turno" id="t-manana" value="Mañana" />
+        <label for="t-manana"><span class="icon">🌅</span> Mañana</label>
+      </div>
+      <div class="turno-pill">
+        <input type="radio" name="turno" id="t-tarde" value="Tarde" />
+        <label for="t-tarde"><span class="icon">☀️</span> Tarde</label>
+      </div>
+      <div class="turno-pill">
+        <input type="radio" name="turno" id="t-noche" value="Noche" />
+        <label for="t-noche"><span class="icon">🌙</span> Noche</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OPERADOR ── -->
+  <div class="card">
+    <div class="card-title">Operador</div>
+    <div class="field">
+      <label for="nombre">Nombre completo <span class="req">*</span></label>
+      <input type="text" id="nombre" placeholder="Tu nombre y apellido" autocomplete="name" />
+    </div>
+  </div>
+
+  <!-- ── PESOS ── -->
+  <div class="card">
+    <div class="card-title">Pesos de pacas (kg)</div>
+    <div class="peso-row">
+      <div class="field">
+        <label for="paca1">Paca 1 <span class="req">*</span></label>
+        <input type="number" id="paca1" placeholder="0.00" step="0.01" min="0" inputmode="decimal" />
+      </div>
+      <div class="field">
+        <label for="paca2">Paca 2 <span class="req">*</span></label>
+        <input type="number" id="paca2" placeholder="0.00" step="0.01" min="0" inputmode="decimal" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ── HUMEDAD ── -->
+  <div class="card">
+    <div class="card-title">Condición de la paca</div>
+    <div class="humedad-group">
+      <div class="check-pill">
+        <input type="checkbox" id="seca" value="Seca" />
+        <label for="seca"><span class="check-icon">🌵</span> Seca</label>
+      </div>
+      <div class="check-pill">
+        <input type="checkbox" id="humeda" value="Húmeda" />
+        <label for="humeda"><span class="check-icon">💧</span> Húmeda</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OBSERVACIONES ── -->
+  <div class="card">
+    <div class="card-title">Observaciones</div>
+    <div class="field">
+      <label for="obs">Notas adicionales (opcional)</label>
+      <textarea id="obs" placeholder="Escribe cualquier observación relevante del turno..."></textarea>
+    </div>
+  </div>
+
+  <div class="error-msg" id="error-msg">⚠️ Hubo un error al enviar. Verifica tu conexión e intenta de nuevo.</div>
+
+  <button class="btn-submit" id="btn-enviar" onclick="enviarFormulario()">
+    Enviar registro
+  </button>
+
+</main>
+
+<!-- PANTALLA DE ÉXITO -->
+<div id="success-screen">
+  <div class="success-circle">✅</div>
+  <h2>¡Registro enviado!</h2>
+  <p>Los datos se guardaron correctamente en el sistema.</p>
+  <button class="btn-nuevo" onclick="nuevoRegistro()">Nuevo registro</button>
+</div>
+
+<script>
+  // ── CONFIGURACIÓN ──────────────────────────────────────────
+  // 👇 Reemplaza esta URL con la de tu Google Apps Script (ver instrucciones)
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwftNJhDC9gsB0qh9mu0-9YxM1oCrl6fbmV8mcxlE5w9nu8NmxA1gS9doaYWxwK-984/exec";
+  // ──────────────────────────────────────────────────────────
+
+  // Reloj en vivo
+  function actualizarReloj() {
+    const ahora = new Date();
+    const opcFecha = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+    const opcHora  = { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true };
+    const fechaStr = ahora.toLocaleDateString('es-GT', opcFecha);
+    const horaStr  = ahora.toLocaleTimeString('es-GT', opcHora);
+
+    document.getElementById('live-clock').textContent = `${fechaStr} · ${horaStr}`;
+    document.getElementById('fecha').value = ahora.toLocaleDateString('es-GT', { year:'numeric', month:'2-digit', day:'2-digit' });
+    document.getElementById('hora').value  = horaStr;
+  }
+  actualizarReloj();
+  setInterval(actualizarReloj, 1000);
+
+  // Validación y envío
+  async function enviarFormulario() {
+    const btn = document.getElementById('btn-enviar');
+    const errEl = document.getElementById('error-msg');
+    errEl.style.display = 'none';
+
+    // Recoger valores
+    const turnoEl = document.querySelector('input[name="turno"]:checked');
+    const nombre  = document.getElementById('nombre').value.trim();
+    const paca1   = document.getElementById('paca1').value.trim();
+    const paca2   = document.getElementById('paca2').value.trim();
+    const seca    = document.getElementById('seca').checked;
+    const humeda  = document.getElementById('humeda').checked;
+    const obs     = document.getElementById('obs').value.trim();
+
+    // Validar campos requeridos
+    if (!turnoEl)        { alert('Selecciona el turno.'); return; }
+    if (!nombre)         { alert('Ingresa tu nombre.'); return; }
+    if (!paca1 || !paca2){ alert('Ingresa el peso de ambas pacas.'); return; }
+
+    // Armar condición
+    const condicion = [seca ? 'Seca' : '', humeda ? 'Húmeda' : ''].filter(Boolean).join(' / ') || 'Sin especificar';
+
+    const datos = {
+      fecha:    document.getElementById('fecha').value,
+      hora:     document.getElementById('hora').value,
+      turno:    turnoEl.value,
+      nombre,
+      paca1,
+      paca2,
+      condicion,
+      observaciones: obs || '—'
+    };
+
+    // Estado de carga
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Enviando...';
+
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode:   'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datos)
+      });
+
+      // Mostrar éxito (no-cors no devuelve respuesta, se asume ok)
+      document.getElementById('form-section').style.display  = 'none';
+      document.getElementById('success-screen').style.display = 'flex';
+
+    } catch (err) {
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Enviar registro';
+    }
+  }
+
+  function nuevoRegistro() {
+    document.getElementById('form-section').style.display  = 'flex';
+    document.getElementById('success-screen').style.display = 'none';
+    document.getElementById('nombre').value = '';
+    document.getElementById('paca1').value  = '';
+    document.getElementById('paca2').value  = '';
+    document.getElementById('obs').value    = '';
+    document.getElementById('seca').checked   = false;
+    document.getElementById('humeda').checked = false;
+    document.querySelector('input[name="turno"]:checked') &&
+      (document.querySelector('input[name="turno"]:checked').checked = false);
+    document.getElementById('error-msg').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
