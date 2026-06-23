@@ -19,6 +19,7 @@
       --blanco:        #ffffff;
       --gris-texto:    #374151;
       --gris-suave:    #f9fafb;
+      --error:         #dc2626;
       --radio:         14px;
     }
 
@@ -45,14 +46,14 @@
       align-items: center;
       gap: 12px;
     }
-    .logo-icon {
-      width: 38px; height: 38px;
-      background: var(--verde-claro);
-      border-radius: 10px;
-      display: grid; place-items: center;
+    .logo-img {
+      height: 42px;
+      width: auto;
       flex-shrink: 0;
+      background: var(--blanco);
+      padding: 4px 8px;
+      border-radius: 8px;
     }
-    .logo-icon svg { width: 22px; height: 22px; fill: var(--blanco); }
     header h1 { font-size: 1.05rem; font-weight: 600; color: var(--blanco); letter-spacing: .01em; }
     header p  { font-size: .75rem; color: rgba(255,255,255,.6); margin-top: 1px; }
 
@@ -273,9 +274,7 @@
 
 <header>
   <div class="header-inner">
-    <div class="logo-icon">
-      <svg viewBox="0 0 24 24"><path d="M20 7H4a1 1 0 00-1 1v11a1 1 0 001 1h16a1 1 0 001-1V8a1 1 0 00-1-1zm-9 9H7v-2h4v2zm6 0h-4v-2h4v2zm0-4H7v-2h10v2zM16 3H8a1 1 0 00-1 1v2h10V4a1 1 0 00-1-1z"/></svg>
-    </div>
+<img class="logo-img" src="data:image/jpeg;base64,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" alt="Grandbay - Papelera Internacional S.A." />
     <div>
       <h1>Registro de Pacas</h1>
       <p>Llena los datos del turno</p>
@@ -311,17 +310,24 @@
     <div class="card-title">Turno</div>
     <div class="turno-group">
       <div class="turno-pill">
-        <input type="radio" name="turno" id="t-manana" value="Mañana" />
-        <label for="t-manana"><span class="icon">🌅</span> Mañana</label>
+        <input type="radio" name="turno" id="t-1" value="1" />
+        <label for="t-1">Turno 1</label>
       </div>
       <div class="turno-pill">
-        <input type="radio" name="turno" id="t-tarde" value="Tarde" />
-        <label for="t-tarde"><span class="icon">☀️</span> Tarde</label>
+        <input type="radio" name="turno" id="t-2" value="2" />
+        <label for="t-2">Turno 2</label>
       </div>
       <div class="turno-pill">
-        <input type="radio" name="turno" id="t-noche" value="Noche" />
-        <label for="t-noche"><span class="icon">🌙</span> Noche</label>
+        <input type="radio" name="turno" id="t-3" value="3" />
+        <label for="t-3">Turno 3</label>
       </div>
+    </div>
+
+    <div class="check-pill" style="margin-top: 12px;">
+      <input type="checkbox" id="doce-horas" />
+      <label for="doce-horas" style="width: 100%; justify-content: center;">
+        Turno de 12 horas
+      </label>
     </div>
   </div>
 
@@ -337,14 +343,33 @@
   <!-- ── PESOS ── -->
   <div class="card">
     <div class="card-title">Pesos de pacas (kg)</div>
+    <p style="font-size:.78rem; color:#6b7280; margin-bottom:12px;">
+      Llena solo las pacas que se trabajaron en el turno. Las que no aplican, déjalas vacías.
+    </p>
     <div class="peso-row">
       <div class="field">
-        <label for="paca1">Paca 1 <span class="req">*</span></label>
+        <label for="paca1">Paca 1</label>
         <input type="number" id="paca1" placeholder="0.00" step="0.01" min="0" inputmode="decimal" />
       </div>
       <div class="field">
-        <label for="paca2">Paca 2 <span class="req">*</span></label>
+        <label for="paca2">Paca 2</label>
         <input type="number" id="paca2" placeholder="0.00" step="0.01" min="0" inputmode="decimal" />
+      </div>
+    </div>
+    <div class="peso-row">
+      <div class="field">
+        <label for="paca3">Paca 3</label>
+        <input type="number" id="paca3" placeholder="0.00" step="0.01" min="0" inputmode="decimal" />
+      </div>
+      <div class="field">
+        <label for="paca4">Paca 4</label>
+        <input type="number" id="paca4" placeholder="0.00" step="0.01" min="0" inputmode="decimal" />
+      </div>
+    </div>
+    <div class="peso-row" style="grid-template-columns: 1fr;">
+      <div class="field">
+        <label for="paca5">Paca 5</label>
+        <input type="number" id="paca5" placeholder="0.00" step="0.01" min="0" inputmode="decimal" />
       </div>
     </div>
   </div>
@@ -355,11 +380,11 @@
     <div class="humedad-group">
       <div class="check-pill">
         <input type="checkbox" id="seca" value="Seca" />
-        <label for="seca"><span class="check-icon">🌵</span> Seca</label>
+        <label for="seca">Seca</label>
       </div>
       <div class="check-pill">
         <input type="checkbox" id="humeda" value="Húmeda" />
-        <label for="humeda"><span class="check-icon">💧</span> Húmeda</label>
+        <label for="humeda">Húmeda</label>
       </div>
     </div>
   </div>
@@ -373,7 +398,7 @@
     </div>
   </div>
 
-  <div class="error-msg" id="error-msg">⚠️ Hubo un error al enviar. Verifica tu conexión e intenta de nuevo.</div>
+  <div class="error-msg" id="error-msg">Hubo un error al enviar. Verifica tu conexión e intenta de nuevo.</div>
 
   <button class="btn-submit" id="btn-enviar" onclick="enviarFormulario()">
     Enviar registro
@@ -383,7 +408,11 @@
 
 <!-- PANTALLA DE ÉXITO -->
 <div id="success-screen">
-  <div class="success-circle">✅</div>
+  <div class="success-circle">
+    <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#2d7a4f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 6L9 17l-5-5"/>
+    </svg>
+  </div>
   <h2>¡Registro enviado!</h2>
   <p>Los datos se guardaron correctamente en el sistema.</p>
   <button class="btn-nuevo" onclick="nuevoRegistro()">Nuevo registro</button>
@@ -391,7 +420,7 @@
 
 <script>
   // ── CONFIGURACIÓN ──────────────────────────────────────────
-  // 👇 Reemplaza esta URL con la de tu Google Apps Script (ver instrucciones)
+  // Reemplaza esta URL con la de tu Google Apps Script (ver instrucciones)
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwftNJhDC9gsB0qh9mu0-9YxM1oCrl6fbmV8mcxlE5w9nu8NmxA1gS9doaYWxwK-984/exec";
   // ──────────────────────────────────────────────────────────
 
@@ -417,29 +446,38 @@
     errEl.style.display = 'none';
 
     // Recoger valores
-    const turnoEl = document.querySelector('input[name="turno"]:checked');
-    const nombre  = document.getElementById('nombre').value.trim();
-    const paca1   = document.getElementById('paca1').value.trim();
-    const paca2   = document.getElementById('paca2').value.trim();
-    const seca    = document.getElementById('seca').checked;
-    const humeda  = document.getElementById('humeda').checked;
-    const obs     = document.getElementById('obs').value.trim();
+    const turnoEl   = document.querySelector('input[name="turno"]:checked');
+    const doceHoras = document.getElementById('doce-horas').checked;
+    const nombre    = document.getElementById('nombre').value.trim();
+    const paca1     = document.getElementById('paca1').value.trim();
+    const paca2     = document.getElementById('paca2').value.trim();
+    const paca3     = document.getElementById('paca3').value.trim();
+    const paca4     = document.getElementById('paca4').value.trim();
+    const paca5     = document.getElementById('paca5').value.trim();
+    const seca      = document.getElementById('seca').checked;
+    const humeda    = document.getElementById('humeda').checked;
+    const obs       = document.getElementById('obs').value.trim();
 
     // Validar campos requeridos
-    if (!turnoEl)        { alert('Selecciona el turno.'); return; }
-    if (!nombre)         { alert('Ingresa tu nombre.'); return; }
-    if (!paca1 || !paca2){ alert('Ingresa el peso de ambas pacas.'); return; }
+    if (!turnoEl) { alert('Selecciona el turno.'); return; }
+    if (!nombre)  { alert('Ingresa tu nombre.'); return; }
+    if (!paca1 && !paca2 && !paca3 && !paca4 && !paca5) {
+      alert('Ingresa el peso de al menos una paca.');
+      return;
+    }
 
     // Armar condición
     const condicion = [seca ? 'Seca' : '', humeda ? 'Húmeda' : ''].filter(Boolean).join(' / ') || 'Sin especificar';
 
+    // Turno final: agrega asterisco si es de 12 horas
+    const turnoFinal = doceHoras ? `${turnoEl.value}*` : turnoEl.value;
+
     const datos = {
       fecha:    document.getElementById('fecha').value,
       hora:     document.getElementById('hora').value,
-      turno:    turnoEl.value,
+      turno:    turnoFinal,
       nombre,
-      paca1,
-      paca2,
+      paca1, paca2, paca3, paca4, paca5,
       condicion,
       observaciones: obs || '—'
     };
@@ -473,9 +511,13 @@
     document.getElementById('nombre').value = '';
     document.getElementById('paca1').value  = '';
     document.getElementById('paca2').value  = '';
+    document.getElementById('paca3').value  = '';
+    document.getElementById('paca4').value  = '';
+    document.getElementById('paca5').value  = '';
     document.getElementById('obs').value    = '';
     document.getElementById('seca').checked   = false;
     document.getElementById('humeda').checked = false;
+    document.getElementById('doce-horas').checked = false;
     document.querySelector('input[name="turno"]:checked') &&
       (document.querySelector('input[name="turno"]:checked').checked = false);
     document.getElementById('error-msg').style.display = 'none';
